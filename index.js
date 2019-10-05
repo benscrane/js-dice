@@ -1,4 +1,5 @@
 const screen = require('./lib/screen');
+const game = require('./lib/game');
 
 data = {
     game: {
@@ -24,7 +25,7 @@ async function main() {
             screen.updatePlayers(data.game);
         }
     } while (input.trim().length > 0)
-    startGame();
+    data.game.lives = game.seedLives(data.game.players);
     screen.drawScreen(data);
     process.exit();
 }
