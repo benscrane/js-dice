@@ -7,7 +7,10 @@ data = {
         finished: false,
         turn: 0,
         firstRoll: 0,
-        numRolls: 3
+        numRolls: 3,
+        rolls: [],
+        highest: null,
+        lowest: null
     }
 }
 
@@ -22,7 +25,9 @@ async function main() {
         }
     } while (input.trim().length > 0)
     data.game.lives = game.seedLives(data.game.players);
+    data.game.rolls = game.seedRolls(data.game.players);
     screen.drawScreen(data);
+    // game loop
     while (!data.game.finished) {
         screen.drawScreen(data);
         screen.updateCurrentTurn(data.game);
@@ -33,13 +38,13 @@ async function main() {
                 break;
             }
             // roll the dice, 
-            roll++;
             let rolledDice = game.rollDice();
-            screen.updateRollDisplay(data.game, rolledDice);
+            screen.updateRollDisplay(data.game, rolledDice, roll);
+            roll++;
         }
         data.game.finished = true;
     }
-    
+    screen.clearRollDisplay();
     screen.endGame();
 }
 
