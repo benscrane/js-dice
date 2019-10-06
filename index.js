@@ -4,14 +4,10 @@ const game = require('./lib/game');
 data = {
     game: {
         players: [],
-        finished: false
-    }
-}
-
-function startGame() {
-    data.game.lives = [];
-    for (let i = 0; i < data.game.players.length; i++) {
-        data.game.lives.push(3);
+        finished: false,
+        turn: 0,
+        firstRoll: 0,
+        numRolls: 3
     }
 }
 
@@ -27,7 +23,24 @@ async function main() {
     } while (input.trim().length > 0)
     data.game.lives = game.seedLives(data.game.players);
     screen.drawScreen(data);
-    process.exit();
+    while (!data.game.finished) {
+        screen.drawScreen(data);
+        screen.updateCurrentTurn(data.game);
+        let roll = 0;
+        while (roll < data.game.numRolls) {
+            let rollResult = await screen.getRollDecision();
+            if (rollResult === false) {
+                break;
+            }
+            // roll the dice, 
+            roll++;
+            let rolledDice = game.rollDice();
+            screen.updateRollDisplay(data.game, rolledDice);
+        }
+        data.game.finished = true;
+    }
+    
+    screen.endGame();
 }
 
 main();
