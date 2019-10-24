@@ -12,15 +12,17 @@ data = {
         lives: [],
         highest: null,
         lowest: null,
-        previousLoser: 0
+        previousLoser: 0,
+        firstRoller: true
     }
 }
 
 function resetRound() {
     data.game.numRolls = 3;
     data.game.rolls = game.seedRolls(data.game.players);
-    data.highest = null;
-    data.lowest = null;
+    data.game.highest = null;
+    data.game.lowest = null;
+    data.game.firstRoller = true;
 }
 
 async function runRound() {
@@ -55,6 +57,7 @@ function endRound() {
 }
 
 async function runTurn() {
+    screen.updateThreshold(data.game);
     // let player roll
     let roll = 0;
     // roll automatically
@@ -71,12 +74,19 @@ async function runTurn() {
         roll++;
     }
     // rolled dice is the final roll
-    screen.clearRollDisplay();
     data.game.rolls[data.game.turn] = rolledDice;
+    data.game.lowest = game.getLowestRoll(data.game.rolls);
     // if player is first, set limit on number of rolls
-    if (data.game.previousLoser = data.game.turn) {
+    if (data.game.firstRoller) {
         data.game.numRolls = roll;
+        data.game.firstRoller = false;
     }
+    screen.updateRolls(data.game);
+    let keepPlaying = await screen.getContinueDecision();
+    if (!keepPlaying) {
+        process.exit();
+    }
+    screen.clearRollDisplay();
 }
 
 async function main() {
