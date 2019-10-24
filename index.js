@@ -61,12 +61,24 @@ async function runTurn() {
     // let player roll
     let roll = 0;
     // roll automatically
+    const playerName = data.game.players[data.game.turn];
     let rolledDice = game.rollDice();
     screen.updateRollDisplay(data.game, rolledDice, roll);
     roll++;
     while (roll < data.game.numRolls) {
-        let rollResult = await screen.getRollDecision();
-        if (rollResult === false) {
+        let rollResult;
+        switch (playerName) {
+            case 'AI':
+                let lowRoll = data.game.lowest || 999;
+                let allowedRolls = data.game.firstRoller ? roll : data.game.numRolls;
+                rollResult = game.shouldRollAgain(rolledDice, allowedRolls, game.numPlayersLeft(data.game), roll, lowRoll);
+                break;
+            default:
+                rollResult = await screen.getRollDecision();
+                break;
+        } 
+        // implement player function library
+        if (rollResult == false) {
             break;
         }
         rolledDice = game.rollDice();
