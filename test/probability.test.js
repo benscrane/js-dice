@@ -37,8 +37,11 @@ describe('Probability AI', function() {
         it('should return 0.4375 for (54, 2, 2)', function() {
             assert.equal(probRollStaysAlive(54, 2, 2), 0.4375);
         });
+        it('should return 0 for (42, 2, 0, 43)', function() {
+            assert.equal(probRollStaysAlive(42, 2, 0, 43), 0);
+        });
         it('should return 1 for (42, 2, 4, 31)', function() {
             assert.equal(probRollStaysAlive(42, 2, 4, 31), 1);
-        })
+        });
     });
 });
