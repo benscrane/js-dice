@@ -41,3 +41,7 @@ function shouldRollAgain(roll, numRolls, numPlayers, rollNum, lowRoll = 999) {
         return true;
     }
 }
+
+module.exports = {
+    probabilityUnion
+}
