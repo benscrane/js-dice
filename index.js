@@ -1,5 +1,6 @@
 const screen = require('./lib/screen');
 const game = require('./lib/game');
+const { shouldRollAgain } = require('./players/probability');
 
 data = {
     game: {
@@ -71,7 +72,7 @@ async function runTurn() {
             case 'AI':
                 let lowRoll = data.game.lowest || 999;
                 let allowedRolls = data.game.firstRoller ? roll : data.game.numRolls;
-                rollResult = game.shouldRollAgain(rolledDice, allowedRolls, game.numPlayersLeft(data.game), roll, lowRoll);
+                rollResult = shouldRollAgain(rolledDice, allowedRolls, game.numPlayersLeft(data.game), roll, lowRoll);
                 break;
             default:
                 rollResult = await screen.getRollDecision();
