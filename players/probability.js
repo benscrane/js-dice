@@ -17,19 +17,27 @@ function probabilityUnion(prob, numRolls, numPlayers) {
     }
 }
 
-/////////////////////////////////
-
+/**
+ * Returns the probability that a given roll stays alive (at least ties)
+ * @param {Number} roll - the roll value in question
+ * @param {Number} numRolls - number of rolls allowed per player
+ * @param {Number} numPlayers - number of players left to go
+ * @returns {Number} - probability that the given roll stays alive
+ */
 function probStayAlive(roll, numRolls, numPlayers) {
     const index = RANKED_LIST.indexOf(roll);
     const prob = CUMULATIVE_PROBS[index] / 36;
     return probabilityUnion(prob, numRolls, numPlayers);
 }
 
-function probRollStays(roll, numRolls, numPlayers, lowRoll) {
+/////////////////////////////////
+
+
+
+function probRollStaysAlive(roll, numRolls, numPlayers, lowRoll) {
     if (RANKED_LIST.indexOf(roll) >= RANKED_LIST.indexOf(lowRoll) && lowRoll != 999) {
         return 1;
     } else if (numPlayers == 0){
-        // no one after you and roll not the highest already, probability is 0
         return 0;
     } else {
         return probStayAlive(roll, numRolls, numPlayers);
@@ -63,7 +71,7 @@ function shouldRollAgain(roll, numRolls, numPlayers, rollNum, lowRoll = 999) {
     let newNumRolls = lowRoll == 999 ? numRolls + 1 : numRolls;
     let nextCumulProb = 0;
     for (let i = 0; i < RANKED_LIST.length; i++) {
-        nextCumulProb += probRollStays(RANKED_LIST[i], newNumRolls, numPlayers, lowRoll) * PROBABILITIES[i];
+        nextCumulProb += probRollStaysAlive(RANKED_LIST[i], newNumRolls, numPlayers, lowRoll) * PROBABILITIES[i];
     }
     let nextProb = nextCumulProb / 36;
     if (currentProb >= nextProb) {
@@ -75,5 +83,6 @@ function shouldRollAgain(roll, numRolls, numPlayers, rollNum, lowRoll = 999) {
 
 module.exports = {
     probabilityUnion,
+    probStayAlive,
     shouldRollAgain
 }
