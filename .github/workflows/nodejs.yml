@@ -1,4 +1,4 @@
-name: Node CI
+name: Unit Tests
 
 on: [push]
 
@@ -20,7 +20,7 @@ jobs:
     - name: npm install, build, and test
       run: |
         npm ci
-        npm coverage
+        npm run coverage
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1.0.3
       with:
