@@ -19,6 +19,7 @@ function probabilityUnion(prob, numRolls, numPlayers) {
 
 /**
  * Returns the probability that a given roll stays alive (at least ties)
+ * Doesn't take existing low roll into account
  * @param {Number} roll - the roll value in question
  * @param {Number} numRolls - number of rolls allowed per player
  * @param {Number} numPlayers - number of players left to go
@@ -30,12 +31,17 @@ function probStayAlive(roll, numRolls, numPlayers) {
     return probabilityUnion(prob, numRolls, numPlayers);
 }
 
-/////////////////////////////////
-
-
-
-function probRollStaysAlive(roll, numRolls, numPlayers, lowRoll) {
-    if (RANKED_LIST.indexOf(roll) >= RANKED_LIST.indexOf(lowRoll) && lowRoll != 999) {
+/**
+ * Returns the probability that a given roll stays alive (at least ties)
+ * Takes existing low roll into account
+ * @param {Number} roll - the roll value in question
+ * @param {Number} numRolls - number of rolls allowed per player
+ * @param {Number} numPlayers - number of players left to go
+ * @param {Number} lowRoll - current lowest roll
+ * @returns {Number} - probability that the given roll stays alive
+ */
+function probRollStaysAlive(roll, numRolls, numPlayers, lowRoll = 999) {
+    if (RANKED_LIST.indexOf(roll) >= RANKED_LIST.indexOf(lowRoll) && RANKED_LIST.indexOf(lowRoll) != -1) {
         return 1;
     } else if (numPlayers == 0){
         return 0;
@@ -43,6 +49,8 @@ function probRollStaysAlive(roll, numRolls, numPlayers, lowRoll) {
         return probStayAlive(roll, numRolls, numPlayers);
     }
 }
+
+/////////////////////////////////
 
 const RANKED_LIST = [
     31, 32, 41, 42, 43, 51, 52, 53, 54, 61, 62, 63, 64, 65, 11, 22, 33, 44, 55, 66, 21
@@ -84,5 +92,6 @@ function shouldRollAgain(roll, numRolls, numPlayers, rollNum, lowRoll = 999) {
 module.exports = {
     probabilityUnion,
     probStayAlive,
+    probRollStaysAlive,
     shouldRollAgain
 }
