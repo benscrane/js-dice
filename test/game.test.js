@@ -1,7 +1,7 @@
 "use strict";
 
 const { seedLives } = require('../lib/game');
-const assert = require('assert');
+const assert = require('chai').assert;
 
 describe('Game', function() {
     describe('#seedLives()', function() {

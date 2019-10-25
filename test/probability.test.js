@@ -1,7 +1,7 @@
 'use strict';
 
 const { probabilityUnion, probStayAlive, probRollStaysAlive } = require('../players/probability');
-const assert = require('assert');
+const assert = require('chai').assert;
 
 // Probability
 describe('Probability AI', function() {
