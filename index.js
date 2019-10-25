@@ -72,7 +72,7 @@ async function runTurn() {
             case 'AI':
                 let lowRoll = data.game.lowest || 999;
                 let allowedRolls = data.game.firstRoller ? roll : data.game.numRolls;
-                rollResult = shouldRollAgain(rolledDice, allowedRolls, game.numPlayersLeft(data.game), roll, lowRoll);
+                rollResult = shouldRollAgain(rolledDice, allowedRolls, game.numPlayersLeft(data.game.lives, data.game.rolls), roll, lowRoll);
                 break;
             default:
                 rollResult = await screen.getRollDecision();
