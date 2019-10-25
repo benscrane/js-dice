@@ -13,5 +13,8 @@
     "clear": "^0.1.0",
     "figlet": "^1.2.4",
     "terminal-kit": "^1.31.4"
+  },
+  "devDependencies": {
+    "mocha": "^6.2.2"
   }
 }

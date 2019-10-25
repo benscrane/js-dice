@@ -1,6 +1,23 @@
 "use strict";
 
 /**
+ * Computes the probability of the event happening, rolling 
+ * less than or equal to our roll
+ * P(A or B) = P(A) + P(B) - P(A and B)
+ * @param {Number} prob - probability of the event
+ * @param {Number} numRolls - number of rolls allowed per player
+ * @param {Number} numPlayers - number of players left to go
+ * @returns {Number} - probability that event will occur
+ */
+function probabilityUnion(prob, numRolls, numPlayers) {
+    if (numPlayers === 1) {
+        return Math.pow(prob, numRolls);
+    } else {
+        return Math.pow(prob, numRolls) + probabilityUnion(prob, numRolls, numPlayers - 1) - (Math.pow(prob, numRolls) * probabilityUnion(prob, numRolls, numPlayers -1));
+    }
+}
+
+/**
  * 
  * @param {Number} roll - number just rolled by current player
  * @param {Number} numRolls - number of allowed rolls
