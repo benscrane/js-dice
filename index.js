@@ -118,7 +118,7 @@ async function main() {
     while (!data.game.finished && data.game.players.length > 0) {
         // run round
         await runRound();
-        data.game.finished = game.isGameOver(data.game);
+        data.game.finished = game.isGameOver(data.game.lives);
     }
     screen.clearRollDisplay();
     screen.endGame();
