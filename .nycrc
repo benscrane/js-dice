@@ -1,4 +1,4 @@
 {   
     "all": "true",
-    "reporter": ["text", "clover"]
+    "reporter": ["text", "clover", "cobertura", "html"]
 }
