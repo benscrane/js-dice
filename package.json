@@ -4,7 +4,8 @@
   "description": "A simple dice game controller",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "coverage": "nyc npm run test"
   },
   "author": "Ben Crane",
   "license": "ISC",
@@ -15,6 +16,7 @@
     "terminal-kit": "^1.31.4"
   },
   "devDependencies": {
-    "mocha": "^6.2.2"
+    "mocha": "^6.2.2",
+    "nyc": "^14.1.1"
   }
 }
