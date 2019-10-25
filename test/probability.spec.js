@@ -3,7 +3,6 @@
 const { probabilityUnion, probStayAlive, probRollStaysAlive, shouldRollAgain } = require('../players/probability');
 const assert = require('chai').assert;
 
-// Probability
 describe('Probability AI', function() {
     describe('#probabilityUnion()', function() {
         it('should return 0.5 for (0.5, 1, 1)', function() {

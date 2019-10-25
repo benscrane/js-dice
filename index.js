@@ -18,18 +18,24 @@ data = {
     }
 }
 
-function resetRound() {
-    data.game.numRolls = 3;
-    data.game.rolls = game.seedRolls(data.game.players);
-    data.game.highest = null;
-    data.game.lowest = null;
-    data.game.firstRoller = true;
+/**
+ * Resets game data at the start of a round
+ * @param {Object} gameData - full game data object
+ * @returns {Object} - updated game data
+ */
+function resetRound(gameData) {
+    gameData.numRolls = 3;
+    gameData.rolls = game.seedRolls(gameData.players);
+    gameData.highest = null;
+    gameData.lowest = null;
+    gameData.firstRoller = true;
+    return gameData
 }
 
 async function runRound() {
     // for each player alive, run turn
     let startIndex = data.game.previousLoser || 0;
-    resetRound();
+    data.game = resetRound(data.game);
     for (let i = 0; i < data.game.players.length; i++) {
         let index = (i + startIndex) % data.game.players.length;
         if (data.game.lives[index] > 0) {
@@ -126,3 +132,7 @@ async function main() {
 }
 
 main();
+
+module.exports = {
+    resetRound
+}
